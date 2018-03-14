@@ -11,21 +11,45 @@ nlcm 함수를 통해 n개의 숫자가 입력되었을 때, 최소공배수를 
 public class NLCM {
 	public long nlcm(int[] num) {
 		long answer = 0;
-		int max = 0;
-		int tmp[] = new int[4];
-		for(int i=0;i<num.length;i++) {
-			if(max < num[i]) {
-				max = num[i];
-			}
+		long max = 0;
+		
+		max = gcdlcm(num[0],num[1]);
+		
+		for(int i=2;i<num.length;i++) {
+			max = gcdlcm(max,num[i]);
 		}
 		
+		answer = max;
 
 		return answer;
 	}
+	
+	public long gcdlcm(long a, int b) {
+		long answer = 0;
+        long max = 0;
+        long maxA = a;
+        long maxB = b;
+        
+        long mod = maxA % maxB;
+        
+        // 유클리드호제법 
+        // f(a, b) = gcd(a, b)라 합시다. 이 때 a mod b = 0 이라면, f(a, b) = b임이 자명함을 알 수 있습니다. 이 때 a mod b이 0이 아닌 경우, f(a, b) = f(b, a mod b)
+        while(mod>0) {
+         	maxA = maxB;
+         	maxB = mod ;
+         	mod = maxA % maxB ;
+        }
+        max = maxB;
+        
+        answer = a * b / max;
+        
+        return answer;
+    }
 
 	public static void main(String[] args) {
 		NLCM c = new NLCM();
-		int[] ex = { 2, 6, 8, 14 };
+//		int[] ex = { 2, 6, 8, 14 };
+		int[] ex = {69, 67, 91, 1, 100, 18, 75, 56, 50, 6};
 		// 아래는 테스트로 출력해 보기 위한 코드입니다.
 		System.out.println(c.nlcm(ex));
 	}
